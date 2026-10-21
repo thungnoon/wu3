@@ -50,7 +50,7 @@ config_package_del kmod-drm-kms-helper
 
 # 3. 按需静态拉满你的核心插件与工具
 config_package_add luci-theme-argon
-config_package_add luci-app-argon-config
+config_package_del luci-app-argon-config
 config_package_add luci-app-openclash
 config_package_add luci-app-dockerman
 config_package_add luci-app-partexp
