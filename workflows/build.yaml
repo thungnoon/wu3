@@ -1,0 +1,99 @@
+name: OpenWrt 25.12 Single Builder
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [openwrt-25.12]
+
+env:
+  REPO_URL: https://github.com/immortalwrt/immortalwrt
+  REPO_BRANCH: openwrt-25.12
+  TZ: Asia/Shanghai
+
+jobs:
+  Build_OpenWrt:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Free disk space
+        uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: false
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: true
+          swap-storage: true
+
+      - name: Initialization environment
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo -E apt-get -qq update
+          sudo bash -c 'bash <(curl -s https://build-scripts.immortalwrt.org/init_build_environment.sh)'
+          sudo -E apt-get -qq autoremove --purge
+          sudo -E apt-get -qq clean
+          sudo timedatectl set-timezone ${{env.TZ}}
+          sudo mkdir -p /workdir
+          sudo chown $USER:$GROUPS /workdir
+
+      - name: Clone source code
+        working-directory: /workdir
+        run: |
+          git clone -b ${{env.REPO_BRANCH}} --single-branch --depth 1 ${{env.REPO_URL}} openwrt
+          ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+
+      - name: Load custom feeds (DIY1)
+        run: |
+          chmod +x diy1.sh
+          cd openwrt
+          $GITHUB_WORKSPACE/diy1.sh
+
+      - name: Update & Install feeds
+        run: |
+          cd openwrt
+          ./scripts/feeds update -a
+          ./scripts/feeds install -a
+
+      - name: Generate default configuration
+        run: |
+          cd openwrt
+          echo "CONFIG_TARGET_x86=y" >> .config
+          echo "CONFIG_TARGET_x86_64=y" >> .config
+          make defconfig
+
+      - name: Load custom configuration (DIY2)
+        run: |
+          chmod +x diy2.sh
+          cd openwrt
+          $GITHUB_WORKSPACE/diy2.sh
+          make defconfig
+
+      - name: Download package
+        run: |
+          cd openwrt
+          make download -j8
+          find dl -size -1024c -exec rm -f {} \;
+
+      - name: Compile firmware
+        id: compile
+        run: |
+          cd openwrt
+          make -j$(($(nproc) + 1)) || make -j1 V=s
+          echo "status=success" >> $GITHUB_OUTPUT
+          echo "COMPILE_DATE=$(date +"%Y%m%d")" >> $GITHUB_ENV
+
+      - name: Organize files & Upload to Release
+        if: steps.compile.outputs.status == 'success' && !cancelled()
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{secrets.GITHUB_TOKEN}}
+          file_glob: true
+          file: openwrt/bin/targets/x86/64/*-squashfs-combined-efi.img.gz
+          tag: immortalwrt-25.12-${{env.COMPILE_DATE}}
+          release_name: immortalwrt-25.12-${{env.COMPILE_DATE}}
+          overwrite: true
