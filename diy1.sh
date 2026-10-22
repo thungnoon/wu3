@@ -11,9 +11,8 @@ sed -i 's,noinitrd,noinitrd mitigations=off,g' target/linux/x86/image/grub-efi.c
 sed -i 's,noinitrd,noinitrd mitigations=off,g' target/linux/x86/image/grub-iso.cfg
 sed -i 's,noinitrd,noinitrd mitigations=off,g' target/linux/x86/image/grub-pc.cfg
 
-# 置顶挂载 217heidai 专为 openwrt-25.12 修复的软件包源（解决新版 apk 依赖断层）
+# 置顶挂载 217heidai 专为 openwrt-25.12 修复的软件包源（已剔除 qmodem）
 { echo 'src-git zz_openwrtpackages https://github.com/217heidai/OpenWrt-Packages.git;openwrt-25.12'
-  echo 'src-git qmodem https://github.com/FUjr/QModem.git;main'
   cat feeds.conf.default; } > feeds.conf.default.tmp && mv feeds.conf.default.tmp feeds.conf.default
 
 echo "========================================="
