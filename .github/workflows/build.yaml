@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Free disk space
         uses: jlumbroso/free-disk-space@main
@@ -97,3 +97,4 @@ jobs:
           tag: immortalwrt-25.12-${{env.COMPILE_DATE}}
           release_name: immortalwrt-25.12-${{env.COMPILE_DATE}}
           overwrite: true
+
