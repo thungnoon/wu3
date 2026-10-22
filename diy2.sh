@@ -48,8 +48,7 @@ config_package_del kmod-drm
 config_package_del kmod-drm-i915
 config_package_del kmod-drm-kms-helper
 
-
-# 3.新增必要和应用
+# 3. 新增必要和应用
 # Firmware
 config_package_add intel-microcode
 
@@ -70,9 +69,6 @@ config_package_add lm-sensors-detect
 # nano 替代 vim
 config_package_add nano
 
-# autoreboot
-#config_package_add luci-app-autoreboot
-
 # tty 终端
 config_package_add luci-app-ttyd
 
@@ -92,7 +88,7 @@ config_package_add kmod-usb-net-ipheth
 # argon主题
 config_package_add luci-theme-argon
 
-#  passwall
+# passwall
 config_package_add luci-app-passwall
 config_package_add luci-app-passwall_INCLUDE_V2ray_Geoview
 config_package_del luci-app-passwall_INCLUDE_Haproxy
@@ -109,11 +105,10 @@ config_package_add luci-app-passwall_INCLUDE_Xray
 config_package_del luci-app-passwall_INCLUDE_Xray_Plugin
 
 # 其他常见应用
-config_package_add luci_app-rtp2httpd
+config_package_add luci-app-rtp2httpd
 config_package_add luci-app-openclash
 config_package_add luci-app-dockerman
 config_package_add luci-app-partexp
-
 
 # 4. 镜像分区与生成策略调优
 sed -i "/CONFIG_TARGET_KERNEL_PARTSIZE/d" .config
