@@ -76,14 +76,18 @@ config_package_add luci-app-ttyd
 config_package_add kmod-usb2
 config_package_add kmod-usb3
 
-# usb 网络支持
-config_package_add usbmuxd
+# usb 网络支持（已剔除针对苹果设备的 usbmuxd 与 ipheth 共享驱动）
 config_package_add usbutils
 config_package_add usb-modeswitch
 config_package_add kmod-usb-serial
 config_package_add kmod-usb-serial-option
 config_package_add kmod-usb-net-rndis
-config_package_add kmod-usb-net-ipheth
+# 显式封杀会引起苹果库报错的隐式依赖
+config_package_del usbmuxd
+config_package_del kmod-usb-net-ipheth
+config_package_del libimobiledevice
+config_package_del libplist
+
 
 # argon主题
 config_package_add luci-theme-argon
