@@ -89,8 +89,16 @@ config_package_add kmod-usb-net-ipheth
 config_package_add luci-theme-argon
 
 # passwall
+# 1. 核心主程序与主推核心（保留最稳妥的 SingBox 与 Xray）
 config_package_add luci-app-passwall
-config_package_add luci-app-passwall_INCLUDE_V2ray_Geoview
+config_package_add luci-app-passwall_INCLUDE_SingBox
+config_package_add luci-app-passwall_INCLUDE_Xray
+
+# 2. 地理数据支持（保留通用 Geodata，去掉容易引起依赖冲突的 Geoview）
+config_package_add luci-app-passwall_INCLUDE_V2ray_Geodata
+config_package_del luci-app-passwall_INCLUDE_V2ray_Geoview
+
+# 3. 清理掉平时用不到且容易引发依赖打架的冗余插件
 config_package_del luci-app-passwall_INCLUDE_Haproxy
 config_package_del luci-app-passwall_INCLUDE_Hysteria
 config_package_del luci-app-passwall_INCLUDE_NaiveProxy
@@ -98,11 +106,9 @@ config_package_del luci-app-passwall_INCLUDE_Shadowsocks_Rust_Client
 config_package_del luci-app-passwall_INCLUDE_Shadowsocks_Rust_Server
 config_package_del luci-app-passwall_INCLUDE_Shadow_TLS
 config_package_del luci-app-passwall_INCLUDE_Simple_Obfs
-config_package_add luci-app-passwall_INCLUDE_SingBox
-config_package_add luci-app-passwall_INCLUDE_V2ray_Geodata
 config_package_del luci-app-passwall_INCLUDE_V2ray_Plugin
-config_package_add luci-app-passwall_INCLUDE_Xray
 config_package_del luci-app-passwall_INCLUDE_Xray_Plugin
+
 
 # 其他常见应用
 config_package_add luci-app-rtp2httpd
