@@ -45,11 +45,44 @@ sed -i "s/hostname='OpenWrt'/hostname='ImmortalWrt'/g" package/base-files/files/
 sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/Makefile
 
 # 3. 精简不必要的驱动与组件
+
+## 移除云专用、嵌入式、古董淘汰网卡驱动
+config_package_del kmod-8139cp
+config_package_del kmod-8139too
+config_package_del kmod-amazon-ena
+config_package_del kmod-dwmac-intel
+config_package_del kmod-forcedeth
+config_package_del kmod-pcnet32
+config_package_del kmod-phy-ax88796b
+config_package_del kmod-stmmac-core
+config_package_del kmod-tulip
 config_package_del kmod-sound-core
+
+# Sound Support
+config_package_del kmod-sound-core
+
+# Video Support
 config_package_del kmod-acpi-video
+config_package_del kmod-backlight
 config_package_del kmod-drm
+config_package_del kmod-drm-buddy
+config_package_del kmod-drm-display-helper
+config_package_del kmod-drm-exec
 config_package_del kmod-drm-i915
 config_package_del kmod-drm-kms-helper
+config_package_del kmod-drm-suballoc-helper
+config_package_del kmod-drm-ttm
+config_package_del kmod-drm-ttm-helper
+config_package_del kmod-fb
+config_package_del kmod-fb-cfb-copyarea
+config_package_del kmod-fb-cfb-fillrect
+config_package_del kmod-fb-cfb-imgblt
+config_package_del kmod-fb-sys-fops
+config_package_del kmod-fb-sys-ram
+
+# Other
+config_package_del luci-app-rclone_INCLUDE_rclone-webui
+config_package_del luci-app-rclone_INCLUDE_rclone-ng
 
 # 4. 新增必要组件与应用
 # Firmware
