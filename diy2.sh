@@ -126,21 +126,27 @@ config_package_del libplist
 # argon主题
 config_package_add luci-theme-argon
 
-# passwall
+# PassWall 优化配置（仅保留 Xray 核心，适配 Nftables）
 config_package_add luci-app-passwall
-config_package_add luci-app-passwall_INCLUDE_SingBox
 config_package_add luci-app-passwall_INCLUDE_Xray
-config_package_add luci-app-passwall_INCLUDE_V2ray_Geodata
-config_package_del luci-app-passwall_INCLUDE_V2ray_Geoview
+config_package_add luci-app-passwall_Nftables_Transparent_Proxy
+config_package_del luci-app-passwall_Iptables_Transparent_Proxy
+config_package_del luci-app-passwall_INCLUDE_SingBox
+config_package_del luci-app-passwall_INCLUDE_Geoview
+config_package_del luci-app-passwall_INCLUDE_V2ray_Geodata
+config_package_del luci-app-passwall_INCLUDE_SmartDNS
 config_package_del luci-app-passwall_INCLUDE_Haproxy
 config_package_del luci-app-passwall_INCLUDE_Hysteria
 config_package_del luci-app-passwall_INCLUDE_NaiveProxy
 config_package_del luci-app-passwall_INCLUDE_Shadowsocks_Rust_Client
 config_package_del luci-app-passwall_INCLUDE_Shadowsocks_Rust_Server
+config_package_del luci-app-passwall_INCLUDE_ShadowsocksR_Libev_Client
+config_package_del luci-app-passwall_INCLUDE_ShadowsocksR_Libev_Server
 config_package_del luci-app-passwall_INCLUDE_Shadow_TLS
 config_package_del luci-app-passwall_INCLUDE_Simple_Obfs
 config_package_del luci-app-passwall_INCLUDE_V2ray_Plugin
 config_package_del luci-app-passwall_INCLUDE_Xray_Plugin
+
 
 # 其他常见应用
 config_package_add luci-app-rtp2httpd
