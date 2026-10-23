@@ -117,7 +117,7 @@ jobs:
           files: ${{ env.FIRMWARE }}/*-squashfs-combined-efi.img.gz
 
       - name: 保留最近几次历史 Releases
-        uses: dev-drprasad/delete-older-releases@v3
+        uses: dev-drprasad/delete-older-releases@v0.2.0
         if: env.UPLOAD_RELEASE == 'true' && !cancelled()
         with:
           keep_latest: 5
