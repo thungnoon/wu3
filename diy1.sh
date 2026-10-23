@@ -11,12 +11,12 @@ sed -i 's,noinitrd,noinitrd mitigations=off,g' target/linux/x86/image/grub-efi.c
 sed -i 's,noinitrd,noinitrd mitigations=off,g' target/linux/x86/image/grub-iso.cfg
 sed -i 's,noinitrd,noinitrd mitigations=off,g' target/linux/x86/image/grub-pc.cfg
 
-# 置顶挂载 217heidai 专为 openwrt-25.12 修复的软件包源（已剔除 qmodem）
-{ echo 'src-git zz_openwrtpackages https://github.com/217heidai/OpenWrt-Packages.git;openwrt-25.12'
+# 置顶挂载 sbwml 专为 openwrt-25.12 修复的软件包源（已剔除 qmodem）
+{ echo 'src-git zz_openwrthelloworld https://github.com/sbwml/openwrt_helloworld.git;v5'
   cat feeds.conf.default; } > feeds.conf.default.tmp && mv feeds.conf.default.tmp feeds.conf.default
 
  git clone --depth 1 https://github.com/sirpdboy/luci-app-poweroffdevice.git package/luci-app-poweroffdevice
- git clone --depth 1 https://github.com/QiuSimons/luci-app-daed package/luci-app-daed
+ git clone --depth 1 https://github.com/sirpdboy/luci-app-partexp.git package/luci-app-partexp
 
 echo "========================================="
 echo "DIY1 配置完成"
