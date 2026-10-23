@@ -16,7 +16,7 @@ sed -i 's,noinitrd,noinitrd mitigations=off,g' target/linux/x86/image/grub-pc.cf
   cat feeds.conf.default; } > feeds.conf.default.tmp && mv feeds.conf.default.tmp feeds.conf.default
 
  git clone --depth 1 https://github.com/sirpdboy/luci-app-poweroffdevice.git package/luci-app-poweroffdevice
- git clone --depth 1 https://github.com/kiddin9/op-packages package/luci-app-daed
+ git clone --depth 1 https://github.com/szwjp/luci-app-daed package/dae
 
 echo "========================================="
 echo "DIY1 配置完成"
