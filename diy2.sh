@@ -148,6 +148,7 @@ config_package_add luci-app-rtp2httpd
 config_package_add luci-app-openclash
 config_package_add luci-app-dockerman
 config_package_add luci-app-partexp
+config_package_add luci-app-poweroffdevice
 
 # 5. 镜像分区与生成策略调优
 sed -i "/CONFIG_TARGET_KERNEL_PARTSIZE/d" .config
