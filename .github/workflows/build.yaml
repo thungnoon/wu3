@@ -106,20 +106,21 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: X86_64_ImmortalWrt_25.12
-          name: ImmortalWrt 25.12 x86_64 稳定精简版
+          tag_name: OpenWrt_${{ env.COMPILE_DATE }}
+          name: ImmortalWrt x86_64 稳定精简版 (${{ env.COMPILE_DATE }})
           body: |
             平台架构：X86-64
-            源码分支：ImmortalWrt 25.12 (最新 Release Tag)
+            编译日期：${{ env.COMPILE_DATE }}
+            源码分支：ImmortalWrt 25.12
             默认网关 IP：192.168.5.1
-            集成特性：Docker (Dockerman) / eBPF / 纯净官方底座
+            集成特性：精简稳定版，支持历史版本回溯
           files: ${{ env.FIRMWARE }}/*-squashfs-combined-efi.img.gz
 
-      - name: 清理历史 Releases 与 Artifacts
-        uses: ophub/delete-releases-workflows@main
+      - name: 保留最近几次历史 Releases
+        uses: dev-drprasad/delete-older-releases@v3
         if: env.UPLOAD_RELEASE == 'true' && !cancelled()
         with:
-          delete_releases: true
-          releases_keep_latest: 15
+          keep_latest: 5
           delete_tags: true
-          gh_token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
