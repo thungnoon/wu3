@@ -1,9 +1,9 @@
-name: OpenWrt 25.12 x86_64 编译任务
+name: OpenWrt openwrt-24.10 x86_64 编译任务
 
 on:
   workflow_dispatch:
   repository_dispatch:
-    types: [openwrt-25.12]
+    types: [openwrt-24.10]
 
 # 核心关键：显式赋予 GitHub Actions 创建 Release 和写入资产的权限
 permissions:
@@ -11,7 +11,7 @@ permissions:
 
 env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt
-  REPO_BRANCH: openwrt-25.12
+  REPO_BRANCH: openwrt-openwrt-24.10
   TZ: Asia/Shanghai
   UPLOAD_RELEASE: true
 
@@ -111,7 +111,7 @@ jobs:
           body: |
             平台架构：X86-64
             编译日期：${{ env.COMPILE_DATE }}
-            源码分支：ImmortalWrt 25.12
+            源码分支：ImmortalWrt 24.10
             默认网关 IP：192.168.5.1
             集成特性：精简稳定版，支持历史版本回溯
           files: ${{ env.FIRMWARE }}/*-squashfs-combined-efi.img.gz
