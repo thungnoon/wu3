@@ -11,7 +11,7 @@ permissions:
 
 env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt
-  REPO_BRANCH: openwrt-openwrt-24.10
+  REPO_BRANCH: openwrt-24.10
   TZ: Asia/Shanghai
   UPLOAD_RELEASE: true
 
