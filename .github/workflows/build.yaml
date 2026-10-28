@@ -1,4 +1,4 @@
-name: OpenWrt 25.12 x86_64 编译任务
+name: Immortalwrt x86_64 编译任务
 
 on:
   workflow_dispatch:
