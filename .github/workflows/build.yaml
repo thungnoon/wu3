@@ -1,4 +1,4 @@
-name: OpenWrt 25.12 x86_64 编译任务
+name: OpenWrt x86_64 编译任务
 
 on:
   workflow_dispatch:
@@ -51,6 +51,20 @@ jobs:
         run: |
           git clone -b ${{env.REPO_BRANCH}} --single-branch --depth 1 ${{env.REPO_URL}} openwrt
           ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+
+      - name: 应用教育网镜像源 (CERNET)
+        run: |
+          # 针对新版 OpenWrt (apk 包管理器) 的默认源列表模板进行替换
+          FEED_FILE="$GITHUB_WORKSPACE/openwrt/package/base-files/files/etc/apk/repositories.d/distfeeds.list"
+          
+          if [ -f "$FEED_FILE" ]; then
+              sed -e 's,https://downloads.immortalwrt.org,https://mirror.nju.edu.cn/immortalwrt,g' \
+                  -e 's,https://mirrors.vsean.net/openwrt,https://mirror.nju.edu.cn/immortalwrt,g' \
+                  -i "$FEED_FILE"
+              echo "Successfully updated feed source to CERNET mirror!"
+          else
+              echo "Warning: distfeeds.list not found, checking alternative paths..."
+          fi
 
       - name: 加载自定义 Feeds (DIY1)
         run: |
@@ -113,7 +127,7 @@ jobs:
             编译日期：${{ env.COMPILE_DATE }}
             源码分支：ImmortalWrt 25.12
             默认网关 IP：192.168.5.1
-            集成特性：精简稳定版，支持历史版本回溯
+            集成特性：精简稳定版，内置 CERNET 高速源
           files: ${{ env.FIRMWARE }}/*-squashfs-combined-efi.img.gz
 
       - name: 保留最近几次历史 Releases
