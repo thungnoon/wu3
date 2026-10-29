@@ -54,17 +54,13 @@ jobs:
 
       - name: 应用教育网镜像源 (CERNET)
         run: |
-          # 针对新版 OpenWrt (apk 包管理器) 的默认源列表模板进行替换
-          FEED_FILE="$GITHUB_WORKSPACE/openwrt/package/base-files/files/etc/apk/repositories.d/distfeeds.list"
-          
-          if [ -f "$FEED_FILE" ]; then
-              sed -e 's,https://downloads.immortalwrt.org,https://mirror.nju.edu.cn/immortalwrt,g' \
-                  -e 's,https://mirrors.vsean.net/openwrt,https://mirror.nju.edu.cn/immortalwrt,g' \
-                  -i "$FEED_FILE"
-              echo "Successfully updated feed source to CERNET mirror!"
-          else
-              echo "Warning: distfeeds.list not found, checking alternative paths..."
-          fi
+          cd $GITHUB_WORKSPACE/openwrt
+          find . -path "*/etc/apk/repositories.d/distfeeds.list" | while read -r file; do
+              sed -e 's,https://downloads.immortalwrt.org,https://mirrors.cernet.edu.cn/immortalwrt,g' \
+                  -e 's,https://mirrors.vsean.net/openwrt,https://mirrors.cernet.edu.cn/immortalwrt,g' \
+                  -i.bak "$file"
+              echo "Updated: $file"
+          done
 
       - name: 加载自定义 Feeds (DIY1)
         run: |
